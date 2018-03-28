@@ -7,6 +7,8 @@ module Dealbot
 
     set :root, File.expand_path('../../..', __FILE__)
 
+    set :show_exceptions, :after_handler
+
     use Rack::Auth::Basic, "Dealbot" do |username, _|
       username == SECRET
     end
