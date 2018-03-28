@@ -15,7 +15,7 @@ module Dealbot
     module_function :ok?
 
     def push_notifications_in_place?
-      push_notifications = JSON.parse Client.get(:pushNotifications).body
+      push_notifications = JSON.parse Client.get(:webhooks).body
       return false unless push_notifications['success']
       return false unless push_notifications['data']
       return false unless push_notifications['data'].length >= 2
@@ -31,13 +31,13 @@ module Dealbot
     module_function :push_notifications_in_place?
 
     def install_push_notifications!(hostname)
-      if push_notifications = JSON.parse(Client.get(:pushNotifications).body)['data']
+      if push_notifications = JSON.parse(Client.get(:webhooks).body)['data']
         push_notifications.select { |p| p['subscription_url'].end_with? Server::NOTIFICATION_PATH }.each do |p|
-          Client.delete("pushNotifications/#{p['id']}")
+          Client.delete("webhooks/#{p['id']}")
         end
       end
       ['added.deal', 'updated.deal'].each do |event|
-        Client.post "pushNotifications",
+        Client.post "webhooks",
                     subscription_url: "https://#{hostname}#{Server::NOTIFICATION_PATH}",
                     event: event,
                     http_auth_user: Dealbot.api_key
