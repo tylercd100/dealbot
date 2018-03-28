@@ -37,9 +37,11 @@ module Dealbot
         end
       end
       ['added.deal', 'updated.deal'].each do |event|
+        event = event.split('.')
         Client.post "webhooks",
                     subscription_url: "https://#{hostname}#{Server::NOTIFICATION_PATH}",
-                    event: event,
+                    event_action: event[0],
+                    event_object: event[1],
                     http_auth_user: Dealbot.api_key
       end
     end
