@@ -23,7 +23,7 @@ describe Dealbot::Pipedrive do
 
   describe 'Push notifications' do
     before do
-      stub_request(:get, "#{described_class::Client::BASE_URL}pushNotifications?api_token=#{described_class::Client.api_key}").to_return(status: 200, body: push_notifications_json)
+      stub_request(:get, "#{described_class::Client::BASE_URL}webhooks?api_token=#{described_class::Client.api_key}").to_return(status: 200, body: push_notifications_json)
     end
 
     describe '.push_notifications_in_place?' do
@@ -73,7 +73,7 @@ describe Dealbot::Pipedrive do
         end
 
         it 'installs the push notifications' do
-          expect(described_class::Client).to receive(:post).with('pushNotifications', instance_of(Hash)).twice
+          expect(described_class::Client).to receive(:post).with('webhooks', instance_of(Hash)).twice
           described_class.install_push_notifications! hostname
         end
       end
@@ -90,8 +90,8 @@ describe Dealbot::Pipedrive do
         end
 
         it 'deletes and installs the push notifications' do
-          expect(described_class::Client).to receive(:delete).with(/pushNotifications\/\d/).twice
-          expect(described_class::Client).to receive(:post).with('pushNotifications', instance_of(Hash)).twice
+          expect(described_class::Client).to receive(:delete).with(/webhooks\/\d/).twice
+          expect(described_class::Client).to receive(:post).with('webhooks', instance_of(Hash)).twice
           described_class.install_push_notifications! hostname
         end
       end
