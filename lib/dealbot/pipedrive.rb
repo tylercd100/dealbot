@@ -24,7 +24,7 @@ module Dealbot
         p['subscription_url'].end_with?(Server::NOTIFICATION_PATH) && p['event_action'] == 'added' && p['event_object'] == 'deal'
       end
       updated_notification = push_notifications['data'].find do |p|
-        p['subscription_url'].end_with?(Server::NOTIFICATION_PATH) && p['event_action'] == 'updated.deal' && p['event_object'] == 'deal'
+        p['subscription_url'].end_with?(Server::NOTIFICATION_PATH) && p['event_action'] == 'updated' && p['event_object'] == 'deal'
       end
       added_notification && updated_notification
     end
