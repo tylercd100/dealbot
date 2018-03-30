@@ -3,6 +3,7 @@ module Dealbot
     class << self
       def find(triggerable, purpose)
         Configuration.triggers.select do |trigger|
+          Dealbot.log triggerable, trigger, purpose
           trigger.condition(purpose) == triggerable.trigger
         end
       end
