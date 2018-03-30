@@ -26,6 +26,7 @@ module Dealbot
     def route_notification
       notification = routable
       Dealbot.log notification.deal_id, "Finding eligible triggers . . ."
+      Dealbot.log notification, "The notification..."
       Trigger.find(notification, :enroll).each do |trigger|
         Dealbot.log notification.deal_id, "  Trigger [#{trigger.name}] is eligible for enrollment (#{trigger.cadences.length} candidate cadences)"
         Enrollment.new(enrollable: notification, enroller: trigger).enroll!
