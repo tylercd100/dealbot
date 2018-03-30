@@ -9,6 +9,7 @@ module Dealbot
 
       def parse(serialized)
         trigger, spec = new(serialized.to_a.flatten.first), serialized.to_a.flatten.last
+        Dealbot.log trigger, spec
         if enroll = spec['enroll']
           trigger.enroll = {
             pipeline: enroll.fetch('pipeline'),
